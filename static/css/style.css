@@ -159,7 +159,7 @@ h2 {
     min-height: 100px;
     display: flex;
     flex-direction: column;
-    resize: both;
+     resize: none;
     overflow: hidden;
     z-index: 1; 
     transition: border-color 0.2s ease-in-out;
@@ -206,15 +206,6 @@ h2 {
     flex-grow: 1;
 }
 
-.resizer {
-    width: 10px;
-    height: 10px;
-    background: var(--border-color);
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    cursor: se-resize;
-}
 
 .flow-node.minimized {
     height: auto !important;

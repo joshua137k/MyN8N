@@ -1,0 +1,1 @@
+[{'id': 'A101', 'nome': 'Laptop Pro', 'categoria': 'Eletrônicos', 'preco': 7500, 'em_estoque': True}, {'id': 'D404', 'nome': 'Monitor 4K', 'categoria': 'Eletrônicos', 'preco': 2800, 'em_estoque': True}]

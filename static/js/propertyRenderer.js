@@ -38,8 +38,9 @@ export function renderProperties(container, properties, currentConfig) {
         const renderer = fieldRenderers[prop.type];
         if (renderer) {
             const currentValue = currentConfig[prop.name];
+            // NOVO: Adiciona um wrapper div com data attributes para a lógica de dependência
             html += `
-                <div class="property-group">
+                <div class="property-group" data-dependency="${prop.dependsOn ? `${prop.dependsOn.field}:${prop.dependsOn.value}` : ''}">
                     <label for="prop-${prop.name}">${prop.label}</label>
                     ${renderer(prop, currentValue)}
                     ${prop.info ? `<small>${prop.info}</small>` : ''}

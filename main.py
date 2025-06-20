@@ -1,44 +1,18 @@
-import os
-import json
 from flask import Flask, render_template, jsonify, request
+from operations import *
+
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
-# --- DEFINIÇÃO DAS OPERAÇÕES DOS NÓS ---
-OUTPUT_DIR = "output"
-if not os.path.exists(OUTPUT_DIR):
-    os.makedirs(OUTPUT_DIR)
-
-def op_read_file(config, input_data):
-    """Lê um arquivo e retorna seu conteúdo."""
-    path = os.path.join(OUTPUT_DIR, config.get("path"))
-    print(f"Lendo arquivo: {path}")
-    try:
-        with open(path, 'r', encoding='utf-8') as f:
-            content = f.read()
-        return content
-    except FileNotFoundError:
-        return f"ERRO: Arquivo não encontrado em {path}"
-
-def op_write_file(config, input_data):
-    """Escreve dados em um arquivo."""
-    path = os.path.join(OUTPUT_DIR, config.get("path"))
-    content_template = config.get("content", "")
-    
-    # Substitui {{input}} pelo dado vindo do nó anterior
-    content_to_write = content_template.replace("{{input}}", str(input_data))
-
-    print(f"Escrevendo no arquivo: {path}")
-    with open(path, 'w', encoding='utf-8') as f:
-        f.write(content_to_write)
-    return f"Sucesso: Arquivo '{path}' escrito."
 
 
 # --- REGISTRO DE OPERAÇÕES ---
 NODE_OPERATIONS = {
     "readFile": op_read_file,
     "writeFile": op_write_file,
-    # "httpRequest": op_http_request,
+    "httpRequest": op_http_request,
+    "filterData": op_filter_data,
+    "textManipulation": op_text_manipulation,
 }
 
 # --- A MÁQUINA DE EXECUÇÃO ---
@@ -74,10 +48,21 @@ class ExecutionEngine:
             
             print(f"Executando Nó: {node.get('name')} ({node_type})")
 
+
             if operation:
                 try:
-                    last_output = operation(node.get('config', {}), last_output)
-                    execution_results[current_node_id] = {"status": "success", "output": str(last_output)}
+                    processed_input = last_output
+                    if isinstance(last_output, str):
+                        try:
+                            processed_input = json.loads(last_output)
+                        except (json.JSONDecodeError, TypeError):
+                            pass # Mantém como string se não for JSON válido
+
+                    last_output = operation(node.get('config', {}), processed_input)
+                    if isinstance(last_output, (dict, list)):
+                        execution_results[current_node_id] = {"status": "success", "output": "ok"}
+                    else:
+                        execution_results[current_node_id] = {"status": "success", "output": "ok"}
                 except Exception as e:
                     error_msg = f"ERRO: {e}"
                     execution_results[current_node_id] = {"status": "error", "output": error_msg}

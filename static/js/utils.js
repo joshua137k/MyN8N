@@ -11,13 +11,22 @@ export function getMouseWorldPosition(e) {
 }
 
 export function getPortPosition(portElement) {
-    const nodeEl = portElement.closest('.flow-node');
-    return {
-        x: nodeEl.offsetLeft + portElement.offsetLeft + portElement.offsetWidth / 2,
-        y: nodeEl.offsetTop + portElement.offsetTop + portElement.offsetHeight / 2
-    };
-}
+    const canvasAreaRect = dom.mainCanvasArea.getBoundingClientRect();
+    const portRect = portElement.getBoundingClientRect();
 
+    // 1. Calcula a posição do centro da porta RELATIVA ao canto superior esquerdo da ÁREA DO CANVAS.
+    //    Isso nos dá a posição da porta na "tela" do canvas, sem considerar pan/zoom.
+    const portX_onCanvas = (portRect.left + portRect.width / 2) - canvasAreaRect.left;
+    const portY_onCanvas = (portRect.top + portRect.height / 2) - canvasAreaRect.top;
+
+    // 2. Converte essa posição da "tela" do canvas para as coordenadas do "MUNDO".
+    //    Isso remove o efeito do pan e do zoom, nos dando a coordenada pura (x, y)
+    //    onde a porta "realmente" está no nosso espaço infinito.
+    const worldX = (portX_onCanvas - state.pan.x) / state.zoom.scale;
+    const worldY = (portY_onCanvas - state.pan.y) / state.zoom.scale;
+    
+    return { x: worldX, y: worldY };
+}
 export function findConnectionAtPoint(worldX, worldY) {
         const HIT_THRESHOLD = 5 / state.zoom.scale;
         let closest = { connection: null, segmentIndex: -1, distance: Infinity };

@@ -26,7 +26,6 @@ export function createNode(type,name, x, y) {
                 </div>
             </div>
             <div class="node-content"><i>Nó não configurado.</i></div>
-            <div class="resizer"></div>
         `;
         dom.nodesContainer.appendChild(nodeEl);
         logToTerminal(`Bloco #${name} (${type}) criado.`);

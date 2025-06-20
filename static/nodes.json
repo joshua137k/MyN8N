@@ -34,7 +34,59 @@
           { "name": "path", "label": "Caminho do Arquivo", "type": "text", "placeholder": "output/resultado.txt" },
           { "name": "content", "label": "Conteúdo a Escrever", "type": "textarea", "defaultValue": "{{input}}", "info": "Use {{input}} para usar a saída do nó anterior." }
         ]
-      }
+      },
+      {
+        "type": "filterData",
+        "name": "Filtrar Dados",
+        "description": "Filtra uma lista com base em critérios.",
+        "icon": "🔍",
+        "properties": [
+          { 
+            "name": "condition", 
+            "label": "Condição de Filtro", 
+            "type": "text", 
+            "placeholder": "preco > 1000",
+            "info": "Use [campo] [operador] [valor]. Ex: categoria == 'Acessórios'"
+          }
+        ]
+      },
+      {
+  "type": "textManipulation",
+  "name": "Operações de Texto",
+  "description": "Modifica um texto: replace, uppercase, etc.",
+  "icon": "🔤",
+  "properties": [
+    {
+      "name": "operation",
+      "label": "Operação",
+      "type": "select",
+      "options": ["replace", "toUpperCase", "toLowerCase", "trim"],
+      "defaultValue": "replace"
+    },
+    {
+      "name": "targetField",
+      "label": "Campo Alvo (Opcional)",
+      "type": "text",
+      "placeholder": "nome_do_campo",
+      "defaultValue":"{{input}}",
+      "info": "Se a entrada for uma lista de objetos, especifique o campo a ser modificado. Deixe em branco se a entrada for um texto simples."
+    },
+    {
+      "name": "find",
+      "label": "Procurar por",
+      "type": "text",
+      "placeholder": "texto a ser substituído",
+      "dependsOn": { "field": "operation", "value": "replace" }
+    },
+    {
+      "name": "replaceWith",
+      "label": "Substituir por",
+      "type": "text",
+      "placeholder": "novo texto",
+      "dependsOn": { "field": "operation", "value": "replace" }
+    }
+  ]
+}
     ]
   },
   {

@@ -1,1 +1,30 @@
-Ola
+[
+  {
+    "id": "A101",
+    "nome": "Laptop Pro",
+    "categoria": "Eletrônicos",
+    "preco": 7500,
+    "em_estoque": true
+  },
+  {
+    "id": "B202",
+    "nome": "Mouse Gamer",
+    "categoria": "Acessórios",
+    "preco": 250,
+    "em_estoque": true
+  },
+  {
+    "id": "C303",
+    "nome": "Teclado Mecânico",
+    "categoria": "Acessórios",
+    "preco": 550,
+    "em_estoque": false
+  },
+  {
+    "id": "D404",
+    "nome": "Monitor 4K",
+    "categoria": "Eletrônicos",
+    "preco": 2800,
+    "em_estoque": true
+  }
+]

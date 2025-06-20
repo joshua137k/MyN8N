@@ -6,7 +6,6 @@ export let state = {
     zoom: { scale: 1, max: 2, min: 0.3 },
     dragging: {
         isDragging: false,
-        isResizing: false,
         target: null,
         dataObject: null,
         offset: { x: 0, y: 0 },

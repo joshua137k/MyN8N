@@ -85,17 +85,56 @@ export function showPropertiesForNode(nodeId) {
     renderProperties(dom.propertiesBody, nodeDefinition.properties, nodeConfig);
 
     // Adiciona listeners para salvar as alterações
-    dom.propertiesBody.querySelectorAll('input, textarea, select').forEach(input => {
-        input.addEventListener('input', (e) => {
-            const field = e.target.dataset.field;
-            const value = e.target.value;
-            updateNodeConfig(nodeId, field, value);
-        });
-    });
+    addPropertyListeners(nodeId);
 
     dom.terminalPanel.classList.add('hidden');
     dom.propertiesPanel.classList.remove('hidden');
 }
+
+
+
+function addPropertyListeners(nodeId) {
+    const propertyContainer = dom.propertiesBody;
+
+    // Listener para salvar as alterações
+    propertyContainer.querySelectorAll('input, textarea, select').forEach(input => {
+        input.addEventListener('input', (e) => {
+            const field = e.target.dataset.field;
+            const value = e.target.value;
+            updateNodeConfig(nodeId, field, value);
+
+            // Se o campo alterado for uma dependência, atualiza a UI
+            if (field === 'operation') {
+                updateDependentFields(propertyContainer);
+            }
+        });
+    });
+
+    // Chama uma vez para definir o estado inicial correto da UI
+    updateDependentFields(propertyContainer);
+}
+
+// NOVA FUNÇÃO: Mostra ou oculta campos com base em dependências
+function updateDependentFields(container) {
+    const fields = container.querySelectorAll('[data-dependency]');
+    const operationSelect = container.querySelector('[data-field="operation"]');
+    if (!operationSelect) return;
+
+    const currentOperation = operationSelect.value;
+
+    fields.forEach(field => {
+        const dependency = field.dataset.dependency;
+        if (dependency) {
+            const [depField, depValue] = dependency.split(':');
+            if (depField === 'operation' && currentOperation === depValue) {
+                field.style.display = 'block'; // Mostra o campo
+            } else {
+                field.style.display = 'none'; // Oculta o campo
+            }
+        }
+    });
+}
+
 
 export function hidePropertiesPanel() {
     dom.propertiesPanel.classList.add('hidden');

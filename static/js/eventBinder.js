@@ -89,14 +89,6 @@ function handleMouseMove(e) {
         draw();
     }
 
-    // 3. Lida com o Redimensionamento de um Nó
-    if (state.dragging.isResizing) {
-        const dx = (e.clientX - state.dragging.offset.x) / state.zoom.scale;
-        const dy = (e.clientY - state.dragging.offset.y) / state.zoom.scale;
-        state.dragging.target.style.width = `${state.dragging.initialSize.width + dx}px`;
-        state.dragging.target.style.height = `${state.dragging.initialSize.height + dy}px`;
-        draw();
-    }
 
     // 4. Lida com a criação de uma nova conexão
     if (state.connecting.isConnecting) {
@@ -122,8 +114,6 @@ function handleMouseUp(e) {
         state.dragging.dataObject = null;
     }
 
-    // Para o Redimensionar
-    state.dragging.isResizing = false;
 
     // Para a Conexão
     if (state.connecting.isConnecting && !e.target.closest('.node-port[data-port-type="input"]')) {
@@ -230,16 +220,7 @@ export function attachNodeListeners(nodeEl) {
         nodeEl.classList.add('is-dragging');
     });
 
-    // Redimensionar o nó
-    nodeEl.querySelector('.resizer').addEventListener('mousedown', (e) => {
-        e.stopPropagation();
-        state.dragging.isResizing = true;
-        state.dragging.target = nodeEl;
-        state.dragging.initialSize.width = nodeEl.offsetWidth;
-        state.dragging.initialSize.height = nodeEl.offsetHeight;
-        state.dragging.offset.x = e.clientX;
-        state.dragging.offset.y = e.clientY;
-    });
+
 
     // Conectar portas
     nodeEl.querySelectorAll('.node-port').forEach(port => {
