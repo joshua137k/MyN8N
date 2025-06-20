@@ -6,48 +6,10 @@
         "type": "if",
         "name": "Condicional (IF)",
         "description": "Executa um caminho se a condição for verdadeira.",
-        "icon": "🔀"
-      },
-      {
-        "type": "switch",
-        "name": "Switch / Case",
-        "description": "Seleciona um de vários caminhos para executar.",
-        "icon": "🔄"
-      },
-      {
-        "type": "forEach",
-        "name": "Loop / ForEach",
-        "description": "Itera sobre uma lista de itens.",
-        "icon": "🔁"
-      }
-    ]
-  },
-  {
-    "category": "Integrações & APIs",
-    "nodes": [
-      {
-        "type": "httpRequest",
-        "name": "Requisição HTTP",
-        "description": "Realiza chamadas GET, POST, PUT, etc.",
-        "icon": "🌐"
-      },
-      {
-        "type": "webhookListener",
-        "name": "Webhook Listener",
-        "description": "Inicia o fluxo ao receber dados de um webhook.",
-        "icon": "📡"
-      },
-      {
-        "type": "sendEmail",
-        "name": "Enviar Email (SMTP)",
-        "description": "Envia emails através de um servidor SMTP.",
-        "icon": "📧"
-      },
-      {
-        "type": "googleSheets",
-        "name": "Google Sheets",
-        "description": "Lê ou escreve dados em planilhas.",
-        "icon": "🗒️"
+        "icon": "🔀",
+        "properties": [
+          { "name": "condition", "label": "Condição", "type": "text", "placeholder": "data.valor > 10" }
+        ]
       }
     ]
   },
@@ -58,54 +20,42 @@
         "type": "readFile",
         "name": "Ler Arquivo",
         "description": "Lê conteúdo de TXT, JSON, CSV.",
-        "icon": "📄"
+        "icon": "📄",
+        "properties": [
+          { "name": "path", "label": "Caminho do Arquivo", "type": "text", "placeholder": "dados/meu_arquivo.txt" }
+        ]
       },
       {
         "type": "writeFile",
         "name": "Escrever Arquivo",
-        "description": "Escrever conteúdo de TXT, JSON, CSV.",
-        "icon": "📄"
-      },
-      {
-        "type": "filterData",
-        "name": "Filtrar Dados",
-        "description": "Filtra uma lista com base em critérios.",
-        "icon": "🔍"
-      },
-      {
-        "type": "textManipulation",
-        "name": "Operações de Texto",
-        "description": "Concatena, limpa, ou usa Regex em textos.",
-        "icon": "🔤"
+        "description": "Escreve conteúdo em um arquivo.",
+        "icon": "📝",
+        "properties": [
+          { "name": "path", "label": "Caminho do Arquivo", "type": "text", "placeholder": "output/resultado.txt" },
+          { "name": "content", "label": "Conteúdo a Escrever", "type": "textarea", "defaultValue": "{{input}}", "info": "Use {{input}} para usar a saída do nó anterior." }
+        ]
       }
     ]
   },
   {
-    "category": "Utilitários",
+    "category": "Integrações & APIs",
     "nodes": [
       {
-        "type": "schedule",
-        "name": "Agendador",
-        "description": "Executa o fluxo em um intervalo de tempo.",
-        "icon": "⏰"
-      },
-      {
-        "type": "delay",
-        "name": "Atraso (Delay)",
-        "description": "Pausa a execução por um tempo definido.",
-        "icon": "⏳"
-      },
-      {
-        "type": "generateUuid",
-        "name": "Gerador de UUID",
-        "description": "Cria um identificador único.",
-        "icon": "🆔"
-      },
-      {
-        "type": "logger",
-        "name": "Logger Avançado",
-        "description": "Registra logs customizados no terminal.",
-        "icon": "📝"
+        "type": "httpRequest",
+        "name": "Requisição HTTP",
+        "description": "Realiza chamadas GET, POST, PUT, etc.",
+        "icon": "🌐",
+        "properties": [
+          { "name": "url", "label": "URL", "type": "text", "placeholder": "https://api.example.com/data" },
+          { 
+            "name": "method", 
+            "label": "Método", 
+            "type": "select", 
+            "options": ["GET", "POST", "PUT", "DELETE"], 
+            "defaultValue": "GET" 
+          },
+          { "name": "body", "label": "Corpo (Body)", "type": "textarea", "placeholder": "{ \"key\": \"value\" }" }
+        ]
       }
     ]
   }

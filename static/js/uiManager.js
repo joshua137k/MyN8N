@@ -1,6 +1,11 @@
 // static/js/uiManager.js
 
 import { state, dom } from './state.js';
+import { renderProperties } from './propertyRenderer.js'; 
+
+
+let nodeDefinitions = new Map();
+
 
 export function logToTerminal(message, type = 'log') {
     const p = document.createElement('p');
@@ -18,6 +23,7 @@ export async function populateNodeList() {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const categories = await response.json();
+            nodeDefinitions.clear();
             
             dom.nodeListContainer.innerHTML = ''; // Limpa qualquer conteúdo existente
 
@@ -30,6 +36,7 @@ export async function populateNodeList() {
 
                 // Cria os itens de nó para esta categoria
                 category.nodes.forEach(node => {
+                    
                     const nodeItem = document.createElement('div');
                     nodeItem.className = 'node-item';
                     nodeItem.draggable = true;
@@ -44,6 +51,7 @@ export async function populateNodeList() {
                         </div>
                     `;
                     dom.nodeListContainer.appendChild(nodeItem);
+                    nodeDefinitions.set(node.type, node)
                 });
             });
 
@@ -65,51 +73,19 @@ function updateNodeConfig(nodeId, field, value) {
 
 export function showPropertiesForNode(nodeId) {
     const nodeEl = document.getElementById(nodeId);
+    if (!nodeEl) return;
+
+    const nodeType = nodeEl.dataset.nodeType;
+    const nodeDefinition = nodeDefinitions.get(nodeType);
     const nodeConfig = state.nodeConfigs.get(nodeId) || {};
-    const nodeType = nodeEl.dataset.nodeType; // Precisaremos disso!
-    const nodeName = nodeEl.querySelector('.node-title').textContent;
 
-    dom.propertiesTitle.textContent = `Propriedades: ${nodeName}`;
-    dom.propertiesBody.innerHTML = ''; // Limpa o painel
-
-    // Gera os campos com base no tipo do nó
-    switch (nodeType) {
-        case 'readFile':
-            dom.propertiesBody.innerHTML = `
-                <div class="property-group">
-                    <label for="prop-path">Caminho do Arquivo (Path)</label>
-                    <input type="text" id="prop-path" data-field="path" value="${nodeConfig.path || ''}">
-                </div>
-            `;
-            break;
-        case 'writeFile':
-            dom.propertiesBody.innerHTML = `
-                <div class="property-group">
-                    <label for="prop-path">Caminho do Arquivo (Path)</label>
-                    <input type="text" id="prop-path" data-field="path" value="${nodeConfig.path || ''}">
-                </div>
-                <div class="property-group">
-                    <label for="prop-content">Conteúdo a Escrever</label>
-                    <textarea id="prop-content" data-field="content">${nodeConfig.content || '{{input}}'}</textarea>
-                    <small>Use {{input}} para usar a saída do nó anterior.</small>
-                </div>
-            `;
-            break;
-        case 'httpRequest':
-            // Exemplo para outro nó
-            dom.propertiesBody.innerHTML = `
-                <div class="property-group">
-                    <label for="prop-url">URL</label>
-                    <input type="text" id="prop-url" data-field="url" value="${nodeConfig.url || ''}">
-                </div>
-            `;
-            break;
-        default:
-            dom.propertiesBody.innerHTML = '<p class="no-node-selected">Este nó não possui configurações.</p>';
-    }
+    dom.propertiesTitle.textContent = `Propriedades: ${nodeDefinition.name}`;
+    
+    // Delega a renderização para o módulo universal
+    renderProperties(dom.propertiesBody, nodeDefinition.properties, nodeConfig);
 
     // Adiciona listeners para salvar as alterações
-    dom.propertiesBody.querySelectorAll('input, textarea').forEach(input => {
+    dom.propertiesBody.querySelectorAll('input, textarea, select').forEach(input => {
         input.addEventListener('input', (e) => {
             const field = e.target.dataset.field;
             const value = e.target.value;
