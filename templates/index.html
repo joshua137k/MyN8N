@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JFlows</title>
+    <!-- O Flask encontrará 'style.css' na pasta 'static' -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- PAINEL LATERAL ESQUERDO (LISTA DE NÓS) -->
+        <aside class="left-panel">
+            <h2>Blocos Disponíveis</h2>
+            <div class="node-list" id="node-list">
+                <!-- Os blocos serão carregados aqui via JavaScript -->
+            </div>
+        </aside>
+
+        <!-- ÁREA PRINCIPAL (CANVAS) -->
+        <main class="main-canvas-area" id="main-canvas-area">
+            <canvas id="connection-canvas" class="connection-canvas"></canvas>
+            <div class="canvas" id="canvas">
+                <!-- Os nós (flows) e waypoints serão inseridos aqui dinamicamente -->
+            </div>
+        </main>
+
+        <!-- PAINEL LATERAL DIREITO (PROPRIEDADES / TERMINAL) -->
+        <aside class="right-panel">
+            <div id="right-panel-content">
+                
+                <!-- PAINEL DE PROPRIEDADES (Inicialmente oculto) -->
+                <div id="properties-panel" class="panel-view hidden">
+                    <div class="panel-header">
+                        <h2 id="properties-title">Propriedades</h2>
+                    </div>
+                    <div id="properties-body" class="properties-body">
+                        <!-- Os campos do nó serão inseridos aqui dinamicamente -->
+                        <p class="no-node-selected">Nenhum nó selecionado.</p>
+                    </div>
+                </div>
+
+                <!-- PAINEL DO TERMINAL (Inicialmente visível) -->
+                <div id="terminal-panel" class="panel-view">
+                     <div class="panel-header">
+                        <h2>Terminal</h2>
+                        <button id="execute-btn" class="execute-btn">
+                            <span class="execute-icon">▶️</span> Executar
+                        </button>
+                    </div>
+                    <div class="terminal" id="terminal">
+                        <div class="terminal-output" id="terminal-output">
+                            <p>Bem-vindo ao JFlows! Logs aparecerão aqui.</p>
+                        </div>
+                        <div class="terminal-input-container">
+                            <span>></span>
+                            <input type="text" id="terminal-input" placeholder="Digite um comando...">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+    </div>
+
+    <!-- O Flask encontrará 'script.js' na pasta 'static' -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
