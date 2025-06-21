@@ -2,6 +2,7 @@ import operator
 import requests
 import os
 import json
+from GeminiSeguro import GeminiSeguro
 
 
 
@@ -20,6 +21,49 @@ OPERATOR_MAP = {
     '<=': operator.le,
     'in': operator.contains,
 }
+
+
+
+
+# --- Bloco de Execução ---
+
+try:
+    with open("../geminiAPI.txt", "r") as file:
+        minha_chave_api = file.read().strip()
+except FileNotFoundError:
+    print("ERRO: Crie um arquivo '../geminiAPI.txt' com sua chave.")
+    minha_chave_api = None
+
+if minha_chave_api:
+    bot_seguro = GeminiSeguro(api_key=minha_chave_api)
+    
+
+
+
+# --- NOVA OPERAÇÃO DO NÓ GEMINI ---
+def op_gemini_request(config, input_data):
+    
+    """Envia um prompt para o Gemini, possivelmente usando a entrada de outro nó."""
+    if not bot_seguro:
+        raise ValueError("O serviço Gemini não foi inicializado. Verifique a sua chave de API em 'geminiAPI.txt'.")
+    
+    prompt_template = config.get("prompt", "")
+    
+    # Substitui {{input}} pelo dado do nó anterior, se houver
+    final_prompt = prompt_template
+
+    if input_data and "{{input}}" in prompt_template:
+        final_prompt = prompt_template.replace("{{input}}", str(input_data))
+    
+    if not final_prompt:
+        raise ValueError("O prompt para o Gemini não pode estar vazio.")
+        
+    response_text = bot_seguro.gerar_conteudo(final_prompt)
+    
+    if response_text is None:
+        raise RuntimeError("A chamada para a API do Gemini não retornou texto.")
+        
+    return response_text
 
 
 def _coerce_type(value_str):

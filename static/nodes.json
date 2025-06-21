@@ -108,6 +108,21 @@
           },
           { "name": "body", "label": "Corpo (Body)", "type": "textarea", "placeholder": "{ \"key\": \"value\" }" }
         ]
+      },
+      {
+        "type": "geminiRequest",
+        "name": "Chamar Gemini",
+        "description": "Envia um prompt para a IA do Google Gemini.",
+        "icon": "🤖",
+        "properties": [
+          { 
+            "name": "prompt", 
+            "label": "Prompt do Gemini", 
+            "type": "textarea", 
+            "defaultValue": "Com base no texto a seguir, resuma os pontos principais em tópicos:\n\n{{input}}", 
+            "info": "Use {{input}} para usar a saída do nó anterior como parte do seu prompt."
+          }
+        ]
       }
     ]
   }

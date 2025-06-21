@@ -1,7 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 from operations import *
 
-
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
 
@@ -13,6 +12,7 @@ NODE_OPERATIONS = {
     "httpRequest": op_http_request,
     "filterData": op_filter_data,
     "textManipulation": op_text_manipulation,
+    "geminiRequest": op_gemini_request,
 }
 
 # --- A MÁQUINA DE EXECUÇÃO ---
@@ -57,7 +57,7 @@ class ExecutionEngine:
                             processed_input = json.loads(last_output)
                         except (json.JSONDecodeError, TypeError):
                             pass # Mantém como string se não for JSON válido
-
+                            
                     last_output = operation(node.get('config', {}), processed_input)
                     if isinstance(last_output, (dict, list)):
                         execution_results[current_node_id] = {"status": "success", "output": "ok"}

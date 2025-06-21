@@ -1,1 +1,45 @@
-[{'id': 'A101', 'nome': 'Laptop Pro', 'categoria': 'Eletrônicos', 'preco': 7500, 'em_estoque': True}, {'id': 'D404', 'nome': 'Monitor 4K', 'categoria': 'Eletrônicos', 'preco': 2800, 'em_estoque': True}]
+O ESP32 é um microcontrolador de baixo custo e alto desempenho com diversas aplicações.  Os pontos principais são:
+
+**Especificações Técnicas:**
+
+* **Processador:** Dual-core Tensilica Xtensa LX6 (até 240 MHz por núcleo).
+* **Conectividade:** Wi-Fi 802.11 b/g/n, Bluetooth Classic e BLE.
+* **Memória:** Até 520 KB SRAM, 4 MB ou mais de flash SPI, possibilidade de PSRAM adicional (4 MB em algumas variantes).
+* **Alimentação:** 2,2V a 3,6V.
+* **Baixo consumo:** Modos de baixo consumo (modem sleep e deep sleep), chegando a dezenas de microampères em deep sleep.
+* **GPIOs:** 34 pinos multiplexados, muitos com função ADC de 12 bits.
+* **Periféricos:**  DACs de 8 bits, UART, SPI, I2C, I2S, CAN, SDIO, sensor de temperatura, PWM, controlador de sensor Hall, RTC.
+* **Segurança:** Hardware de criptografia (AES, SHA-2, RSA), boot seguro, criptografia de flash.
+
+**Funcionalidades e Suporte:**
+
+* **Desenvolvimento:** Suporte a ESP-IDF (baseado em FreeRTOS), Arduino IDE, MicroPython, Lua (NodeMCU), PlatformIO (VS Code).
+* **Atualizações:** OTA (Over-The-Air).
+* **Protocolos:** ESP-NOW, ESP-MESH, MQTT, HTTP, TLS, DTLS, Modbus RTU.
+* **Integração em Nuvem:** AWS IoT, Azure IoT, Google Cloud IoT.
+* **Capacidades Adicionais:** Processamento de imagem (limitado), processamento de áudio (I2S), GPS (via UART), LoRa (requer módulo externo).
+
+**Aplicações:**
+
+* Internet das Coisas (IoT) em geral.
+* Automação residencial (Home Assistant).
+* Wearables.
+* Controle ambiental e agricultura inteligente.
+* Robótica educacional e drones.
+* Segurança (reconhecimento facial).
+* Smart speakers.
+* Aplicações industriais.
+* Projetos de arte interativa.
+
+
+**Vantagens:**
+
+* Baixo custo.
+* Alto desempenho.
+* Versatilidade.
+* Grande comunidade de desenvolvedores.
+* Extensa documentação e suporte.
+* Certificações (CE, FCC).
+
+
+**Derivados:** ESP32-S2 (núcleo único, USB OTG), ESP32-C3 (arquitetura RISC-V, foco em segurança), ESP32-S3 (aceleração neural).

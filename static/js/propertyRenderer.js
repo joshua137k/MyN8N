@@ -15,13 +15,15 @@ const fieldRenderers = {
         >${value || prop.defaultValue || ''}</textarea>
     `,
     'select': (prop, value) => `
-        <select id="prop-${prop.name}" data-field="${prop.name}">
-            ${prop.options.map(option => `
-                <option value="${option}" ${ (value || prop.defaultValue) === option ? 'selected' : ''}>
-                    ${option}
-                </option>
-            `).join('')}
-        </select>
+        <div class="select-wrapper">
+            <select id="prop-${prop.name}" data-field="${prop.name}">
+                ${prop.options.map(option => `
+                    <option value="${option}" ${ (value || prop.defaultValue) === option ? 'selected' : ''}>
+                        ${option}
+                    </option>
+                `).join('')}
+            </select>
+        </div>
     `,
     
 };

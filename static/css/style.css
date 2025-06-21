@@ -373,6 +373,59 @@ h2 {
     color: var(--text-secondary);
 }
 
+.property-group input[type="text"],
+.property-group textarea,
+.property-group select { /* Adiciona 'select' à regra existente */
+    width: 100%;
+    padding: 10px;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.9rem;
+    -webkit-appearance: none; /* Remove a aparência nativa no Chrome/Safari */
+    -moz-appearance: none;    /* Remove a aparência nativa no Firefox */
+    appearance: none;          /* Remove a aparência nativa em navegadores modernos */
+}
+
+/* NOVO: Estilos para o wrapper do select */
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* NOVO: Pseudo-elemento para criar nossa seta customizada */
+.select-wrapper::after {
+    content: '▼'; /* Você pode usar um emoji, um caractere ou um ícone SVG como background */
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    pointer-events: none; /* Garante que os cliques passem para o select abaixo */
+    transition: color 0.2s;
+}
+
+/* Opcional: Efeito hover na seta */
+.select-wrapper:hover::after {
+    color: var(--accent-color);
+}
+
+
+/* --- Garante que o select tenha um padding à direita para não sobrepor a seta --- */
+.property-group select {
+    padding-right: 30px; /* Espaço para a seta */
+    cursor: pointer;
+}
+
+/* Estilo para as opções do select (limitado, mas útil) */
+.property-group select option {
+    background-color: var(--bg-node);
+    color: var(--text-primary);
+}
+
 /* Estilos específicos para o Terminal */
 .terminal {
     flex-grow: 1;
